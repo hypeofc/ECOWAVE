@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoWave — Recicle hoje. Ganhe amanhã.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0a2e1a;
+    --green-mid: #1a5c35;
+    --green-bright: #2ecc71;
+    --green-light: #7feba0;
+    --lime: #b5f542;
+    --white: #f4f9f0;
+    --cream: #e8f5e1;
+    --dark: #071a0f;
+    --accent: #f0c419;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── PROGRESS BAR ── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--lime), var(--green-bright));
+    width: 0%;
+    z-index: 9999;
+    transition: width 0.2s ease;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 4px; left: 0; right: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    background: rgba(7,26,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(46,204,113,0.15);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--lime);
+    letter-spacing: -1px;
+  }
+
+  .logo span { color: var(--green-bright); }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+
+  nav ul li a {
+    color: rgba(244,249,240,0.6);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  nav ul li a:hover { color: var(--lime); }
+
+  /* ── SLIDES SYSTEM ── */
+  .slide {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slide-content {
+    max-width: 1100px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── SLIDE LABELS ── */
+  .slide-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 1.2rem;
+    opacity: 0.8;
+  }
+
+  /* ── HERO SLIDE ── */
+  #hero {
+    background: radial-gradient(ellipse at 30% 50%, rgba(46,204,113,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(181,245,66,0.08) 0%, transparent 50%),
+                var(--dark);
+  }
+
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232ecc71' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(46,204,113,0.12);
+    border: 1px solid rgba(46,204,113,0.3);
+    border-radius: 100px;
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--green-bright);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .dot-pulse {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green-bright);
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-title .eco { color: var(--lime); }
+  .hero-title .wave {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--green-bright);
+  }
+
+  .hero-sub {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: rgba(244,249,240,0.7);
+    max-width: 550px;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-slogan {
+    display: inline-block;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--dark);
+    background: var(--lime);
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-float {
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 420px;
+    height: 420px;
+    animation: fadeUp 1s 0.4s ease both;
+  }
+
+  .circle-visual {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(46,204,113,0.2);
+    position: relative;
+    animation: rotateSlow 20s linear infinite;
+  }
+
+  .circle-visual::before {
+    content: '';
+    position: absolute;
+    inset: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(181,245,66,0.15);
+  }
+
+  .circle-visual::after {
+    content: '';
+    position: absolute;
+    inset: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(46,204,113,0.2) 0%, transparent 70%);
+  }
+
+  .recycle-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8rem;
+    animation: rotateSlow 20s linear infinite reverse;
+  }
+
+  @keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title .highlight { color: var(--lime); }
+
+  .section-body {
+    font-size: 1.1rem;
+    color: rgba(244,249,240,0.7);
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(46,204,113,0.15);
+    border-radius: 16px;
+    padding: 1.8rem;
+    transition: transform 0.3s, border-color 0.3s, background 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(181,245,66,0.5);
+    background: rgba(46,204,113,0.08);
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+    color: rgba(244,249,240,0.6);
+    line-height: 1.6;
+  }
+
+  /* ── PROBLEM SLIDE ── */
+  #problema {
+    background: radial-gradient(ellipse at 70% 30%, rgba(240,196,25,0.07) 0%, transparent 60%),
+                var(--dark);
+  }
+
+  .problem-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .problem-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: rgba(240,196,25,0.05);
+    border: 1px solid rgba(240,196,25,0.15);
+    border-radius: 12px;
+    padding: 1.2rem;
+  }
+
+  .problem-item .icon { font-size: 1.5rem; flex-shrink: 0; }
+
+  .problem-item p {
+    font-size: 0.95rem;
+    color: rgba(244,249,240,0.75);
+    line-height: 1.5;
+  }
+
+  .problem-item p strong {
+    display: block;
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.2rem;
+  }
+
+  /* ── HOW IT WORKS ── */
+  #como-funciona {
+    background: radial-gradient(ellipse at 20% 80%, rgba(46,204,113,0.12) 0%, transparent 60%),
+                var(--dark);
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 2rem;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--lime), transparent);
+  }
+
+  .step {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    padding: 1.5rem 0;
+    position: relative;
+  }
+
+  .step-num {
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--green-deep);
+    border: 2px solid var(--lime);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: var(--lime);
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-info { padding-top: 0.5rem; }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+
+  .step-desc {
+    font-size: 0.9rem;
+    color: rgba(244,249,240,0.6);
+    line-height: 1.6;
+  }
+
+  /* ── POINTS TABLE ── */
+  .points-table {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .point-badge {
+    background: rgba(181,245,66,0.1);
+    border: 1px solid rgba(181,245,66,0.3);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .point-badge .material {
+    font-size: 0.95rem;
+    color: var(--white);
+  }
+
+  .point-badge .pts {
+    font-family: 'Syne', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--lime);
+  }
+
+  /* ── REVENUE SLIDE ── */
+  #receita {
+    background: radial-gradient(ellipse at 80% 50%, rgba(46,204,113,0.1) 0%, transparent 60%),
+                var(--dark);
+  }
+
+  .revenue-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .revenue-card {
+    background: linear-gradient(135deg, rgba(46,204,113,0.08), rgba(7,26,15,0.5));
+    border: 1px solid rgba(46,204,113,0.2);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .revenue-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--lime);
+  }
+
+  .revenue-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--lime);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .revenue-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .revenue-desc {
+    font-size: 0.88rem;
+    color: rgba(244,249,240,0.55);
+    line-height: 1.5;
+  }
+
+  /* ── IMPACT SPLIT SLIDE ── */
+  #impacto {
+    background: var(--dark);
+  }
+
+  .impact-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .impact-col {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(46,204,113,0.12);
+    border-radius: 20px;
+    padding: 2rem;
+  }
+
+  .impact-col-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: var(--lime);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .impact-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .impact-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.95rem;
+    color: rgba(244,249,240,0.75);
+  }
+
+  .impact-list li::before {
+    content: '→';
+    color: var(--lime);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ── FUTURE SLIDE ── */
+  #futuro {
+    background: radial-gradient(ellipse at 50% 0%, rgba(181,245,66,0.1) 0%, transparent 60%),
+                var(--dark);
+  }
+
+  .future-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    border-left: 2px solid rgba(181,245,66,0.3);
+    padding-left: 2rem;
+  }
+
+  .future-item {
+    position: relative;
+    padding: 1rem 1.5rem;
+    background: rgba(181,245,66,0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(181,245,66,0.1);
+    transition: border-color 0.3s;
+  }
+
+  .future-item:hover { border-color: rgba(181,245,66,0.4); }
+
+  .future-item::before {
+    content: '';
+    position: absolute;
+    left: -2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--lime);
+    border: 3px solid var(--dark);
+  }
+
+  .future-item p {
+    font-size: 0.95rem;
+    color: rgba(244,249,240,0.8);
+  }
+
+  /* ── FINAL SLIDE ── */
+  #final {
+    background: radial-gradient(ellipse at 50% 50%, rgba(46,204,113,0.25) 0%, rgba(7,26,15,0.8) 50%, var(--dark) 100%);
+    text-align: center;
+  }
+
+  #final .slide-content { display: flex; flex-direction: column; align-items: center; }
+
+  .final-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -3px;
+    margin-bottom: 2rem;
+  }
+
+  .final-body {
+    max-width: 700px;
+    font-size: 1.15rem;
+    color: rgba(244,249,240,0.75);
+    line-height: 1.7;
+    margin-bottom: 3rem;
+  }
+
+  .slogan-big {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 900;
+    color: var(--dark);
+    background: var(--lime);
+    padding: 1rem 3rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+  }
+
+  .team-line {
+    font-size: 0.9rem;
+    color: rgba(244,249,240,0.4);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .animate-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── DECORATIVE FLOATS ── */
+  .float-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    opacity: 0.15;
+  }
+
+  /* ── SEPARATOR ── */
+  .sep {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(46,204,113,0.3), transparent);
+    margin: 0 4rem;
+  }
+
+  /* ── WHAT IS STARTUP ── */
+  #startup {
+    background: radial-gradient(ellipse at 30% 70%, rgba(46,204,113,0.1) 0%, transparent 60%),
+                var(--dark);
+  }
+
+  .startup-examples {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .startup-pill {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 0.6rem 1.5rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .startup-pill.highlight-pill {
+    background: rgba(181,245,66,0.15);
+    border-color: rgba(181,245,66,0.5);
+    color: var(--lime);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .slide { padding: 5rem 1.5rem 3rem; }
+    .hero-float { display: none; }
+    .problem-list, .revenue-grid, .impact-split, .points-table { grid-template-columns: 1fr; }
+    .hero-title { letter-spacing: -2px; }
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--green-mid); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="logo">Eco<span>Wave</span></div>
+  <ul>
+    <li><a href="#hero">Início</a></li>
+    <li><a href="#startup">Startup</a></li>
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#como-funciona">Solução</a></li>
+    <li><a href="#receita">Receita</a></li>
+    <li><a href="#impacto">Impacto</a></li>
+    <li><a href="#futuro">Futuro</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="slide" id="hero">
+  <div class="float-blob" style="width:600px;height:600px;background:var(--green-bright);right:-200px;top:-200px;"></div>
+  <div class="slide-content">
+    <div class="hero-eyebrow">
+      <span class="dot-pulse"></span>
+      Startup de Sustentabilidade
+    </div>
+    <h1 class="hero-title">
+      <span class="eco">Eco</span><span class="wave">Wave</span><br>
+    </h1>
+    <p class="hero-sub">
+      Um aplicativo que transforma reciclagem em recompensas — unindo tecnologia, sustentabilidade e benefícios para todos.
+    </p>
+    <div class="hero-slogan">"Recicle hoje. Ganhe amanhã."</div>
+  </div>
+  <div class="hero-float">
+    <div class="circle-visual"></div>
+    <div class="recycle-icon">♻️</div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- O QUE É UMA STARTUP -->
+<section class="slide" id="startup">
+  <div class="slide-content animate-in">
+    <div class="slide-label">01 — Conceito</div>
+    <h2 class="section-title">O que é uma <span class="highlight">startup?</span></h2>
+    <p class="section-body">
+      Uma startup é uma empresa moderna criada para resolver problemas reais usando tecnologia e inovação. Startups crescem rápido e mudam o mundo.
+    </p>
+    <div class="startup-examples">
+      <div class="startup-pill">🚗 Uber</div>
+      <div class="startup-pill">🍔 iFood</div>
+      <div class="startup-pill">💜 Nubank</div>
+      <div class="startup-pill highlight-pill">♻️ EcoWave</div>
+    </div>
+    <div class="cards-grid" style="margin-top: 2.5rem;">
+      <div class="card">
+        <span class="card-icon">💡</span>
+        <div class="card-title">Inovação</div>
+        <div class="card-text">Resolve um problema de forma nova e diferente.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📱</span>
+        <div class="card-title">Tecnologia</div>
+        <div class="card-text">Usa apps, dados e sistemas para escalar rápido.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌍</span>
+        <div class="card-title">Impacto</div>
+        <div class="card-text">Gera valor real para a sociedade e o planeta.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- PROBLEMA -->
+<section class="slide" id="problema">
+  <div class="slide-content animate-in">
+    <div class="slide-label">02 — O Problema</div>
+    <h2 class="section-title">Por que isso é <span class="highlight">urgente?</span></h2>
+    <p class="section-body">Hoje, o lixo descartado incorretamente causa danos enormes — e a maioria das pessoas não recicla por falta de incentivo.</p>
+    <div class="problem-list">
+      <div class="problem-item">
+        <span class="icon">🌊</span>
+        <p><strong>Poluição</strong>Rios, praias e oceanos contaminados por plástico e resíduos.</p>
+      </div>
+      <div class="problem-item">
+        <span class="icon">🏙️</span>
+        <p><strong>Enchentes</strong>Lixo entupindo redes de drenagem nas cidades.</p>
+      </div>
+      <div class="problem-item">
+        <span class="icon">🤷</span>
+        <p><strong>Falta de incentivo</strong>As pessoas não sabem onde descartar e não ganham nada ao reciclar.</p>
+      </div>
+      <div class="problem-item">
+        <span class="icon">🗑️</span>
+        <p><strong>Descarte errado</strong>Grandes volumes de recicláveis vão direto para aterros sanitários.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- COMO FUNCIONA -->
+<section class="slide" id="como-funciona">
+  <div class="slide-content animate-in">
+    <div class="slide-label">03 — A Solução</div>
+    <h2 class="section-title">Como a <span class="highlight">EcoWave</span><br>funciona?</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-info">
+            <div class="step-title">Separe os materiais</div>
+            <div class="step-desc">Plástico, papel, vidro, metal — qualquer recicável conta.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-info">
+            <div class="step-title">Abra o aplicativo</div>
+            <div class="step-desc">Veja pontos de coleta, seu saldo de pontos e recompensas disponíveis.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-info">
+            <div class="step-title">Entregue no parceiro</div>
+            <div class="step-desc">Leve os materiais até o ponto cadastrado mais próximo.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-info">
+            <div class="step-title">Pesagem automática</div>
+            <div class="step-desc">O sistema calcula os pontos na hora, com base no peso.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-info">
+            <div class="step-title">Ganhe recompensas</div>
+            <div class="step-desc">Troque pontos por descontos, cashback, cupons e muito mais!</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--lime);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">Tabela de pontos</p>
+        <div class="points-table">
+          <div class="point-badge"><span class="material">♻️ Plástico (1kg)</span><span class="pts">50 pts</span></div>
+          <div class="point-badge"><span class="material">🥫 Alumínio (1kg)</span><span class="pts">100 pts</span></div>
+          <div class="point-badge"><span class="material">📰 Papel (1kg)</span><span class="pts">30 pts</span></div>
+          <div class="point-badge"><span class="material">🍾 Vidro (1kg)</span><span class="pts">40 pts</span></div>
+        </div>
+        <div class="card" style="margin-top:1.5rem;">
+          <span class="card-icon">🎮</span>
+          <div class="card-title">Gamificação</div>
+          <div class="card-text">Ranking de usuários, desafios semanais e badges exclusivos para quem mais recicla.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- RECEITA -->
+<section class="slide" id="receita">
+  <div class="slide-content animate-in">
+    <div class="slide-label">04 — Modelo de Negócio</div>
+    <h2 class="section-title">Como a EcoWave <span class="highlight">ganha dinheiro?</span></h2>
+    <div class="revenue-grid">
+      <div class="revenue-card">
+        <div class="revenue-num">01</div>
+        <div class="revenue-title">Venda de Recicláveis</div>
+        <div class="revenue-desc">Os materiais coletados são vendidos para empresas recicladoras, gerando receita direta.</div>
+      </div>
+      <div class="revenue-card">
+        <div class="revenue-num">02</div>
+        <div class="revenue-title">Parcerias Comerciais</div>
+        <div class="revenue-desc">Empresas pagam para divulgar promoções dentro do aplicativo para usuários ativos.</div>
+      </div>
+      <div class="revenue-card">
+        <div class="revenue-num">03</div>
+        <div class="revenue-title">Planos Empresariais</div>
+        <div class="revenue-desc">Empresas contratam a EcoWave para implementar projetos de sustentabilidade corporativa.</div>
+      </div>
+      <div class="revenue-card">
+        <div class="revenue-num">04</div>
+        <div class="revenue-title">Publicidade Verde</div>
+        <div class="revenue-desc">Marcas ecológicas e sustentáveis anunciam dentro do app para o público certo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- IMPACTO -->
+<section class="slide" id="impacto">
+  <div class="slide-content animate-in">
+    <div class="slide-label">05 — Impacto</div>
+    <h2 class="section-title">O impacto da <span class="highlight">EcoWave</span></h2>
+    <p class="section-body">Cada material reciclado gera um efeito em cadeia — para as pessoas, para as cidades e para o planeta.</p>
+    <div class="impact-split">
+      <div class="impact-col">
+        <div class="impact-col-title">🧑‍🤝‍🧑 Impacto Social</div>
+        <ul class="impact-list">
+          <li>Conscientiza a população sobre reciclagem</li>
+          <li>Gera empregos sustentáveis</li>
+          <li>Limpa ruas e cidades</li>
+          <li>Incentiva crianças e jovens</li>
+          <li>Fortalece comunidades locais</li>
+        </ul>
+      </div>
+      <div class="impact-col">
+        <div class="impact-col-title">🌿 Impacto Ambiental</div>
+        <ul class="impact-list">
+          <li>Menos plástico nos rios e mares</li>
+          <li>Menos lixo nos aterros sanitários</li>
+          <li>Menos árvores cortadas</li>
+          <li>Redução da emissão de CO₂</li>
+          <li>Cidades mais limpas e saudáveis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- FUTURO -->
+<section class="slide" id="futuro">
+  <div class="slide-content animate-in">
+    <div class="slide-label">06 — Visão de Futuro</div>
+    <h2 class="section-title">O futuro da <span class="highlight">EcoWave</span></h2>
+    <p class="section-body">Temos planos grandes. A EcoWave quer ser a maior plataforma de reciclagem do Brasil.</p>
+    <div class="future-timeline">
+      <div class="future-item"><p>🇧🇷 <strong style="color:var(--lime)">Expansão nacional</strong> — Levar o app para todo o Brasil, cidade por cidade.</p></div>
+      <div class="future-item"><p>🤖 <strong style="color:var(--lime)">Máquinas automáticas</strong> — Totens inteligentes que pesam e aceitam materiais sozinhos.</p></div>
+      <div class="future-item"><p>🏫 <strong style="color:var(--lime)">Parceria com escolas</strong> — Programas de educação ambiental e coleta escolar.</p></div>
+      <div class="future-item"><p>🏛️ <strong style="color:var(--lime)">Prefeituras parceiras</strong> — Integração com serviços públicos de coleta seletiva.</p></div>
+      <div class="future-item"><p>🏆 <strong style="color:var(--lime)">Desafios nacionais</strong> — Competições sustentáveis entre cidades e comunidades.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"></div>
+
+<!-- FINAL -->
+<section class="slide" id="final">
+  <div class="slide-content animate-in">
+    <div class="slide-label">EcoWave — Apresentação</div>
+    <h2 class="final-title">
+      <span style="color:var(--lime)">Eco</span><span style="color:transparent;-webkit-text-stroke:2px var(--green-bright)">Wave</span>
+    </h2>
+    <p class="final-body">
+      A EcoWave é uma startup que une tecnologia e sustentabilidade para incentivar a reciclagem através de recompensas. Nosso objetivo é tornar o mundo mais limpo, sustentável e consciente utilizando inovação e benefícios para a população.
+    </p>
+    <div class="slogan-big">"Recicle hoje. Ganhe amanhã."</div>
+    <p class="team-line">Obrigado pela atenção ♻️</p>
+  </div>
+</section>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = doc.scrollHeight - doc.clientHeight;
+    const progress = (scrollTop / scrollHeight) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+  });
+
+  // Animate in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
